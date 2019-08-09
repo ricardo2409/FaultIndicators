@@ -26,12 +26,16 @@ import com.google.android.gms.location.LocationRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import im.delight.android.location.SimpleLocation;
+
+import static java.lang.Long.toBinaryString;
+import static java.lang.Long.valueOf;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -79,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initTextViews();
-        //readString(cadena);
+        //readString(cadena); //Leer del string fijo
         // construct a new instance of SimpleLocation
         mlocation = new SimpleLocation(this);
 
@@ -117,9 +121,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvTiempo3 = (TextView)findViewById(R.id.tvTiempo3);
         tvConnect = (TextView)findViewById(R.id.tvConnect);
         btnConnect = (Button)findViewById(R.id.btnConnect);
-        btnCoordenadas = (Button)findViewById(R.id.btnCoordenadas);
+        //btnCoordenadas = (Button)findViewById(R.id.btnCoordenadas);
         btnConnect.setOnClickListener(this);
-        btnCoordenadas.setOnClickListener(this);
+        //btnCoordenadas.setOnClickListener(this);
         control = 0;
         uno =  "";
         dos = "";
@@ -144,14 +148,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }else{
             print("No tiene F0");
+            String pattern="00000000";
+            DecimalFormat myFormatter = new DecimalFormat(pattern);
+            String binaria1 = myFormatter.format(valueOf(toBinaryString(intarray[7])));
+            String binaria2 = myFormatter.format(valueOf(toBinaryString(intarray[8])));
+
             //Colocar los valores
             tvNodeID.setText(intarray[1] + "" + intarray[2]);
             tvCoordinador.setText(String.valueOf(intarray[3]));
             tvNodo.setText(String.valueOf(intarray[4]));
             //tvCaracteres.setText(intarray[5]);
             //tvComando.setText(intarray[6]);
-            tvBinaria1.setText(String.valueOf(Integer.toBinaryString(intarray[7])));
-            tvBinaria2.setText(String.valueOf(Integer.toBinaryString(intarray[8])));
+            tvBinaria1.setText(binaria1);
+            tvBinaria2.setText(binaria2);
             tvCorriente1.setText(String.valueOf(intarray[12]*256 + intarray[11]));
             tvCorriente2.setText(String.valueOf(intarray[14]*256 + intarray[13]));
             tvCorriente3.setText(String.valueOf(intarray[16]*256 + intarray[15]));
@@ -323,20 +332,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 //Mandarlo asi como está
                                 print("Ya estaba completo: " + sb.toString());
                             }
-                            //readString(sb.toString());
-                            /*
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    //Status
-                                    if(s.length() >= 0 && s.length() <= 1000){
-                                        System.out.println("S: " + s);
-                                        readString(s);
-                                    }
-
-                                }
-                            });
-                            */
+                           
                         }
 
                     }
@@ -351,26 +347,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void resetFields(){
-        tvNodeID.setText("");
-        tvCoordinador.setText("");
-        tvNodo.setText("");
-        tvBinaria1.setText("");
-        tvBinaria2.setText("");
-        tvCorriente1.setText("");
-        tvCorriente2.setText("");
-        tvCorriente3.setText("");
-        tvVoltaje1.setText("");
-        tvVoltaje2.setText("");
-        tvVoltaje3.setText("");
-        tvPico1.setText("");
-        tvPico2.setText("");
-        tvPico3.setText("");
-        tvTemperatura1.setText("");
-        tvTemperatura2.setText("");
-        tvTemperatura3.setText("");
-        tvTiempo1.setText("");
-        tvTiempo2.setText("");
-        tvTiempo3.setText("");
+        tvNodeID.setText("0");
+        tvCoordinador.setText("0");
+        tvNodo.setText("0");
+        tvBinaria1.setText("0");
+        tvBinaria2.setText("0");
+        tvCorriente1.setText("0");
+        tvCorriente2.setText("0");
+        tvCorriente3.setText("0");
+        tvVoltaje1.setText("0");
+        tvVoltaje2.setText("0");
+        tvVoltaje3.setText("0");
+        tvPico1.setText("0");
+        tvPico2.setText("0");
+        tvPico3.setText("0");
+        tvTemperatura1.setText("0");
+        tvTemperatura2.setText("0");
+        tvTemperatura3.setText("0");
+        tvTiempo1.setText("0");
+        tvTiempo2.setText("0");
+        tvTiempo3.setText("0");
     }
 
 
@@ -401,12 +397,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
 
+                /*
             case R.id.btnCoordenadas:
                 print("Coordenadas");
                 latitudeValue = mlocation.getLatitude();
                 longitudeValue = mlocation.getLongitude();
                 print("Esto es latitude: " + latitudeValue + " y esto es longitude: " + longitudeValue );
                 break;
+                */
 
 
         }

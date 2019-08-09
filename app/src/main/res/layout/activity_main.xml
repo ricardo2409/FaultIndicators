@@ -23,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Indicador"
+                android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
@@ -32,6 +33,7 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:text="1"
+                android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
@@ -41,6 +43,7 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:text="2"
+                android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
@@ -50,6 +53,7 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:text="3"
+                android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
         </LinearLayout>
         <LinearLayout
@@ -73,7 +77,6 @@
                 android:layout_weight="1"
                 android:foregroundGravity="center_horizontal"
                 android:gravity="center_horizontal"
-                android:text="100"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
@@ -82,7 +85,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="60"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
@@ -91,7 +93,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="90"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
         </LinearLayout>
 
@@ -114,7 +115,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="100"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
@@ -123,7 +123,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="60"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
@@ -132,7 +131,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="90"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
         </LinearLayout>
 
@@ -155,7 +153,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="100"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
@@ -164,7 +161,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="60"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
@@ -173,7 +169,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="90"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
         </LinearLayout>
 
@@ -196,7 +191,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="100"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
@@ -205,7 +199,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="60"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
@@ -214,7 +207,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="90"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
         </LinearLayout>
 
@@ -237,7 +229,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="100"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
@@ -246,7 +237,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="60"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
@@ -255,7 +245,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="90"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
         </LinearLayout>
 
@@ -278,7 +267,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="0001"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
@@ -295,7 +283,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="30"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <TextView
@@ -313,7 +300,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="90"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
         </LinearLayout>
         <LinearLayout
@@ -335,8 +321,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="0000 0000 0000 0101"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="26sp" />
 
             <TextView
                 android:id="@+id/textView"
@@ -352,8 +338,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="0000 0000 0000 0101"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="26sp" />
 
         </LinearLayout>
 
@@ -365,13 +351,6 @@
             android:id="@+id/tvConnect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btnCoordenadas"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Actualizar Coordenadas" />
 
         <Button
             android:id="@+id/btnConnect"
