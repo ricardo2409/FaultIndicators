@@ -44,7 +44,7 @@
                     <Button
                         android:id="@+id/btnAbrir"
                         android:layout_width="wrap_content"
-                        android:layout_height="100sp"
+                        android:layout_height="80sp"
                         android:layout_weight="1"
                         android:text="Abrir"
                         android:textSize="28sp" />
@@ -52,7 +52,7 @@
                     <Button
                         android:id="@+id/btnCerrar"
                         android:layout_width="wrap_content"
-                        android:layout_height="100sp"
+                        android:layout_height="80sp"
                         android:layout_weight="1"
                         android:text="Cerrar"
                         android:textSize="28sp" />
@@ -61,7 +61,7 @@
                 <Button
                     android:id="@+id/btnParar"
                     android:layout_width="match_parent"
-                    android:layout_height="80sp"
+                    android:layout_height="70sp"
                     android:text="Parar"
                     android:textSize="28sp" />
 
@@ -383,7 +383,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold" />
 
         <TextView
@@ -401,7 +401,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -421,7 +421,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvConsecRx"
+            android:id="@+id/tvRx"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -440,7 +440,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvConsecTx"
+            android:id="@+id/tvTx"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -451,12 +451,44 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Liberado:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvLiberado"
+            android:layout_width="80sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:paddingLeft="20sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0sp" />
 
     <TextView
         android:id="@+id/tvConnect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold" />
+
     <Button
         android:id="@+id/btnConnect"
         android:layout_width="match_parent"

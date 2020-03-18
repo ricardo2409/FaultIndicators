@@ -2,7 +2,6 @@ package com.example.indicadores;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -25,7 +24,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -35,7 +33,7 @@ import static java.lang.Long.valueOf;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView tvEstado, tvNodeID,tvVoltBatUTR, tvConsecRx, tvConsectx, tvBinaria1, tvBinaria2, tvCorriente1, tvCorriente2, tvCorriente3, tvVoltaje1, tvVoltaje2, tvVoltaje3, tvPico1, tvPico2, tvPico3, tvTemperatura1, tvTemperatura2, tvTemperatura3, tvTiempo1, tvTiempo2, tvTiempo3, tvConnect;
+    TextView tvLiberado,tvEstado, tvNodeID,tvVoltBatUTR, tvRx, tvTx, tvBinaria1, tvBinaria2, tvCorriente1, tvCorriente2, tvCorriente3, tvVoltaje1, tvVoltaje2, tvVoltaje3, tvPico1, tvPico2, tvPico3, tvTemperatura1, tvTemperatura2, tvTemperatura3, tvTiempo1, tvTiempo2, tvTiempo3, tvConnect;
     String cadena = "F1 00 02 00 3E 21 00 00 60 00 00 00 00 0D 00 0D 00 00 00 53 01 55 01 00 00 00 00 00 00 00 15 15 FA 00 00 00 00 00 F2";
     Button btnConnect, btnAbrir, btnCerrar, btnParar;
     boolean connected = false;
@@ -84,10 +82,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
     public void initTextViews(){
+        tvLiberado = (TextView)findViewById(R.id.tvLiberado);
         tvEstado = (TextView)findViewById(R.id.tvEstado);
         tvNodeID = (TextView)findViewById(R.id.tvNodeID);
-        tvConsecRx = (TextView)findViewById(R.id.tvConsecRx);
-        tvConsectx = (TextView)findViewById(R.id.tvConsecTx);
+        tvRx = (TextView)findViewById(R.id.tvRx);
+        tvTx = (TextView)findViewById(R.id.tvTx);
+        tvVoltBatUTR = (TextView)findViewById(R.id.tvVoltBatUTR);
         tvCorriente1 = (TextView)findViewById(R.id.tvCorriente1);
         tvCorriente2 = (TextView)findViewById(R.id.tvCorriente2);
         tvCorriente3 = (TextView)findViewById(R.id.tvCorriente3);
@@ -136,32 +136,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }else{
             print("No tiene F0");
-            String pattern="00000000";
-            DecimalFormat myFormatter = new DecimalFormat(pattern);
-            String binaria1 = myFormatter.format(valueOf(toBinaryString(intarray[7])));
-            String binaria2 = myFormatter.format(valueOf(toBinaryString(intarray[8])));
-            String binaria3 = myFormatter.format(valueOf(toBinaryString(intarray[9])));
-
 
             //Colocar los valores
             tvNodeID.setText(intarray[1] + "" + intarray[2]);
-            tvConsecRx.setText(intarray[3]);
-            tvConsectx.setText(intarray[4]);
+            tvRx.setText(String.valueOf(intarray[3]));
+            tvTx.setText(String.valueOf(intarray[4]));
+            print("Esto tiene el 7: " + intarray[7]);
+            print("Esto tiene el 8: " + intarray[8]);
+            print("Esto tiene el 9: " + intarray[9]);
 
-            /*
-            switch (intarray[7]) {
+            switch (intarray[9]) {
                 case 01:
                     tvEstado.setText("Abierto");
+                    tvLiberado.setText("No");
                     break;
-                case 10:
+                case 02:
                     tvEstado.setText("Cerrado");
+                    tvLiberado.setText("No");
                     break;
-                case 11:
+                case 03:
                     tvEstado.setText("En Transición");
+                    break;
+                case 05:
+                    tvEstado.setText("Abierto");
+                    tvLiberado.setText("Sí");
+                    break;
+                case 06:
+                    tvEstado.setText("Cerrado");
+                    tvLiberado.setText("Sí");
                     break;
 
             }
-            */
+
 
             tvCorriente1.setText(String.valueOf(intarray[11]*256 + intarray[10]));
             tvCorriente2.setText(String.valueOf(intarray[13]*256 + intarray[12]));
@@ -350,9 +356,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void resetFields(){
-        tvNodeID.setText("0");
-        tvBinaria1.setText("0");
-        tvBinaria2.setText("0");
+        tvNodeID.setText("");
         tvCorriente1.setText("0");
         tvCorriente2.setText("0");
         tvCorriente3.setText("0");
@@ -368,6 +372,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvTiempo1.setText("0");
         tvTiempo2.setText("0");
         tvTiempo3.setText("0");
+        tvVoltBatUTR.setText("");
+        tvLiberado.setText("");
+        tvRx.setText("");
+        tvTx.setText("");
     }
 
 
