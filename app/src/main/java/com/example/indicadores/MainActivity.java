@@ -7,20 +7,17 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.graphics.Color;
-import android.location.Location;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.google.android.gms.location.LocationRequest;
 
 
 import java.io.IOException;
@@ -32,16 +29,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import im.delight.android.location.SimpleLocation;
 
 import static java.lang.Long.toBinaryString;
 import static java.lang.Long.valueOf;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView tvNodeID, tvCoordinador, tvNodo, tvBinaria1, tvBinaria2, tvCorriente1, tvCorriente2, tvCorriente3, tvVoltaje1, tvVoltaje2, tvVoltaje3, tvPico1, tvPico2, tvPico3, tvTemperatura1, tvTemperatura2, tvTemperatura3, tvTiempo1, tvTiempo2, tvTiempo3, tvConnect;
+    TextView tvEstado, tvNodeID,tvVoltBatUTR, tvConsecRx, tvConsectx, tvBinaria1, tvBinaria2, tvCorriente1, tvCorriente2, tvCorriente3, tvVoltaje1, tvVoltaje2, tvVoltaje3, tvPico1, tvPico2, tvPico3, tvTemperatura1, tvTemperatura2, tvTemperatura3, tvTiempo1, tvTiempo2, tvTiempo3, tvConnect;
     String cadena = "F1 00 02 00 3E 21 00 00 60 00 00 00 00 0D 00 0D 00 00 00 53 01 55 01 00 00 00 00 00 00 00 15 15 FA 00 00 00 00 00 F2";
-    Button btnConnect, btnCoordenadas;
+    Button btnConnect, btnAbrir, btnCerrar, btnParar;
     boolean connected = false;
 
     private static final UUID PORT_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
@@ -73,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int timeInterval = 3000;
     private int fastestTimeInterval = 3000;
     private boolean runAsBackgroundService = false;
-    private SimpleLocation mlocation;
     StringBuilder sb, sbAux;
     int control;
     String uno, dos;
@@ -85,25 +80,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initTextViews();
         //readString(cadena); //Leer del string fijo
         // construct a new instance of SimpleLocation
-        mlocation = new SimpleLocation(this);
 
-        // if we can't access the location yet
-        if (!mlocation.hasLocationEnabled()) {
-            // ask the user to enable location access
-            SimpleLocation.openSettings(this);
-
-        }else{
-            mlocation.beginUpdates();
-
-        }
 
     }
     public void initTextViews(){
+        tvEstado = (TextView)findViewById(R.id.tvEstado);
         tvNodeID = (TextView)findViewById(R.id.tvNodeID);
-        tvCoordinador = (TextView)findViewById(R.id.tvCoord);
-        tvNodo = (TextView)findViewById(R.id.tvNodo);
-        tvBinaria1 = (TextView)findViewById(R.id.tvBinaria1);
-        tvBinaria2 = (TextView)findViewById(R.id.tvBinaria2);
+        tvConsecRx = (TextView)findViewById(R.id.tvConsecRx);
+        tvConsectx = (TextView)findViewById(R.id.tvConsecTx);
         tvCorriente1 = (TextView)findViewById(R.id.tvCorriente1);
         tvCorriente2 = (TextView)findViewById(R.id.tvCorriente2);
         tvCorriente3 = (TextView)findViewById(R.id.tvCorriente3);
@@ -121,9 +105,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvTiempo3 = (TextView)findViewById(R.id.tvTiempo3);
         tvConnect = (TextView)findViewById(R.id.tvConnect);
         btnConnect = (Button)findViewById(R.id.btnConnect);
-        //btnCoordenadas = (Button)findViewById(R.id.btnCoordenadas);
         btnConnect.setOnClickListener(this);
-        //btnCoordenadas.setOnClickListener(this);
+        btnAbrir = (Button)findViewById(R.id.btnAbrir);
+        btnAbrir.setOnClickListener(this);
+        btnCerrar = (Button)findViewById(R.id.btnCerrar);
+        btnCerrar.setOnClickListener(this);
+        btnParar = (Button)findViewById(R.id.btnParar);
+        btnParar.setOnClickListener(this);
         control = 0;
         uno =  "";
         dos = "";
@@ -152,30 +140,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             DecimalFormat myFormatter = new DecimalFormat(pattern);
             String binaria1 = myFormatter.format(valueOf(toBinaryString(intarray[7])));
             String binaria2 = myFormatter.format(valueOf(toBinaryString(intarray[8])));
+            String binaria3 = myFormatter.format(valueOf(toBinaryString(intarray[9])));
+
 
             //Colocar los valores
             tvNodeID.setText(intarray[1] + "" + intarray[2]);
-            tvCoordinador.setText(String.valueOf(intarray[3]));
-            tvNodo.setText(String.valueOf(intarray[4]));
-            //tvCaracteres.setText(intarray[5]);
-            //tvComando.setText(intarray[6]);
-            tvBinaria1.setText(binaria1);
-            tvBinaria2.setText(binaria2);
-            tvCorriente1.setText(String.valueOf(intarray[12]*256 + intarray[11]));
-            tvCorriente2.setText(String.valueOf(intarray[14]*256 + intarray[13]));
-            tvCorriente3.setText(String.valueOf(intarray[16]*256 + intarray[15]));
-            tvVoltaje1.setText(String.valueOf(Double.valueOf(intarray[18]*256 + intarray[17])/100));
-            tvVoltaje2.setText(String.valueOf(Double.valueOf(intarray[20]*256 + intarray[19])/100));
-            tvVoltaje3.setText(String.valueOf(Double.valueOf(intarray[22]*256 + intarray[21])/100));
-            tvPico1.setText(String.valueOf(Double.valueOf(intarray[24]*256 + intarray[23])/100));
-            tvPico2.setText(String.valueOf(Double.valueOf(intarray[26]*256 + intarray[25])/100));
-            tvPico3.setText(String.valueOf(Double.valueOf(intarray[28]*256 + intarray[27])/100));
-            tvTemperatura1.setText(String.valueOf(intarray[29]));
-            tvTemperatura2.setText(String.valueOf(intarray[30]));
-            tvTemperatura3.setText(String.valueOf(intarray[31]));
-            tvTiempo1.setText(String.valueOf(intarray[32]));
-            tvTiempo2.setText(String.valueOf(intarray[33]));
-            tvTiempo3.setText(String.valueOf(intarray[34]));
+            tvConsecRx.setText(intarray[3]);
+            tvConsectx.setText(intarray[4]);
+
+            /*
+            switch (intarray[7]) {
+                case 01:
+                    tvEstado.setText("Abierto");
+                    break;
+                case 10:
+                    tvEstado.setText("Cerrado");
+                    break;
+                case 11:
+                    tvEstado.setText("En Transición");
+                    break;
+
+            }
+            */
+
+            tvCorriente1.setText(String.valueOf(intarray[11]*256 + intarray[10]));
+            tvCorriente2.setText(String.valueOf(intarray[13]*256 + intarray[12]));
+            tvCorriente3.setText(String.valueOf(intarray[15]*256 + intarray[14]));
+            tvVoltaje1.setText(String.valueOf(Double.valueOf(intarray[17]*256 + intarray[16])/100));
+            tvVoltaje2.setText(String.valueOf(Double.valueOf(intarray[19]*256 + intarray[18])/100));
+            tvVoltaje3.setText(String.valueOf(Double.valueOf(intarray[21]*256 + intarray[20])/100));
+            tvPico1.setText(String.valueOf(Double.valueOf(intarray[23]*256 + intarray[22])/100));
+            tvPico2.setText(String.valueOf(Double.valueOf(intarray[25]*256 + intarray[24])/100));
+            tvPico3.setText(String.valueOf(Double.valueOf(intarray[27]*256 + intarray[26])/100));
+            tvVoltBatUTR.setText(String.valueOf(Double.valueOf(intarray[29]*256 + intarray[28])/100));
+            tvTemperatura1.setText(String.valueOf(intarray[30]));
+            tvTemperatura2.setText(String.valueOf(intarray[31]));
+            tvTemperatura3.setText(String.valueOf(intarray[32]));
+            tvTiempo1.setText(String.valueOf(intarray[33]));
+            tvTiempo2.setText(String.valueOf(intarray[34]));
+            tvTiempo3.setText(String.valueOf(intarray[35]));
         }
     }
 
@@ -332,7 +335,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 //Mandarlo asi como está
                                 print("Ya estaba completo: " + sb.toString());
                             }
-                           
+
                         }
 
                     }
@@ -348,8 +351,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void resetFields(){
         tvNodeID.setText("0");
-        tvCoordinador.setText("0");
-        tvNodo.setText("0");
         tvBinaria1.setText("0");
         tvBinaria2.setText("0");
         tvCorriente1.setText("0");
@@ -385,9 +386,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnConnect:
                 if (!connected) {
                     if (BTinit()) {
-
                         BTconnect();
-
                     }
                 } else {
                     try {
@@ -397,25 +396,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
 
-                /*
-            case R.id.btnCoordenadas:
-                print("Coordenadas");
-                latitudeValue = mlocation.getLatitude();
-                longitudeValue = mlocation.getLongitude();
-                print("Esto es latitude: " + latitudeValue + " y esto es longitude: " + longitudeValue );
+            case R.id.btnAbrir:
+                if (connected) {
+                    sendOpen();
+                } else {
+                    showToast("Bluetooth Desconectado");
+                }
                 break;
-                */
+            case R.id.btnCerrar:
+                if (connected) {
+                    sendClose();
+                } else {
+                    showToast("Bluetooth Desconectado");
+                }
+                break;
+
+            case R.id.btnParar:
+                if (connected) {
+                    sendParar();
+                } else {
+                    showToast("Bluetooth Desconectado");
+                }
+                break;
+
 
 
         }
     }
+    void sendOpen(){
+        try {
+            System.out.println("Estoy en sendOpen");
+            String msg = "$OPEN_SWITCH&";
+            outputStream.write(msg.getBytes());
+        } catch (IOException ex) {
+        }
+    }
+    void sendClose(){
+        try {
+            System.out.println("Estoy en sendClose");
+            String msg = "$CLOSE_SWITCH&";
+            outputStream.write(msg.getBytes());
+        } catch (IOException ex) {
+        }
+    }
+    void sendParar(){
+        try {
+            System.out.println("Estoy en sendClose");
+            String msg = "$STOP_SWITCH&";
+            outputStream.write(msg.getBytes());
+        } catch (IOException ex) {
+        }
+    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
 
         // make the device update its location
-        mlocation.beginUpdates();
 
         // ...
     }
@@ -423,7 +461,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         // stop location updates (saves battery)
-        mlocation.endUpdates();
+
 
         // ...
 
