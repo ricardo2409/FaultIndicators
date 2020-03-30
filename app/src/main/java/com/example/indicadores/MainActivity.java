@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,7 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-
+import com.akhgupta.easylocation.EasyLocationAppCompatActivity;
+import com.akhgupta.easylocation.EasyLocationRequest;
+import com.akhgupta.easylocation.EasyLocationRequestBuilder;
+import com.google.android.gms.location.LocationRequest;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,11 +35,11 @@ import java.util.UUID;
 import static java.lang.Long.toBinaryString;
 import static java.lang.Long.valueOf;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends EasyLocationAppCompatActivity implements View.OnClickListener {
 
     TextView tvLiberado,tvEstado, tvNodeID,tvVoltBatUTR, tvRx, tvTx, tvBinaria1, tvBinaria2, tvCorriente1, tvCorriente2, tvCorriente3, tvVoltaje1, tvVoltaje2, tvVoltaje3, tvPico1, tvPico2, tvPico3, tvTemperatura1, tvTemperatura2, tvTemperatura3, tvTiempo1, tvTiempo2, tvTiempo3, tvConnect;
     String cadena = "F1 00 02 00 3E 21 00 00 60 00 00 00 00 0D 00 0D 00 00 00 53 01 55 01 00 00 00 00 00 00 00 15 15 FA 00 00 00 00 00 F2";
-    Button btnConnect, btnAbrir, btnCerrar, btnParar;
+    Button btnConnect, btnAbrir, btnCerrar, btnParar, btnCoordenadas;
     boolean connected = false;
 
     private static final UUID PORT_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
@@ -63,14 +67,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     boolean boolPassword;
     String controlPassword = "OK";
-    Double latitudeValue, longitudeValue;
+    float latitudeValue, longitudeValue;
     private int timeInterval = 3000;
     private int fastestTimeInterval = 3000;
     private boolean runAsBackgroundService = false;
     StringBuilder sb, sbAux;
     int control;
-    String uno, dos;
+    String uno, dos,latitudeUno, latitudeDos, longitudUno, longitudDos;
     Boolean boolDos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,10 +117,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnCerrar.setOnClickListener(this);
         btnParar = (Button)findViewById(R.id.btnParar);
         btnParar.setOnClickListener(this);
+        btnCoordenadas = (Button)findViewById(R.id.btnCoordenadas);
+        btnCoordenadas.setOnClickListener(this);
         control = 0;
         uno =  "";
         dos = "";
         boolDos = false;
+        latitudeValue = (float) 0;
+        longitudeValue = (float) 0;
     }
 
     public void readString(String message){
@@ -426,6 +435,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     showToast("Bluetooth Desconectado");
                 }
                 break;
+            case R.id.btnCoordenadas:
+                if (connected) {
+                    requestSingleLocation();
+                } else {
+                    showToast("Bluetooth Desconectado");
+                }
+                break;
 
 
 
@@ -456,6 +472,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    void sendLocation(String location) throws IOException
+    {
+        try {
+            System.out.println("Estoy en el sendLocation");
+            String msg = location;
+            outputStream.write(msg.getBytes());
+        } catch (IOException ex) {
+        }
+
+    }
 
     @Override
     protected void onResume() {
@@ -475,5 +501,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         super.onPause();
     }
+    @Override
+    public void onLocationReceived(Location location) {
+        //showToast(location.getLatitude() + "," + location.getLongitude());
+        latitudeValue = 0;
+        longitudeValue = 0;
+        latitudeValue = (float)location.getLatitude();
+        longitudeValue = (float)location.getLongitude();
+        System.out.println("Esto es lat long: " + latitudeValue + " " + longitudeValue);
+        showToast("Lat: " + latitudeValue + " Long: " + longitudeValue);
+        String latitude = Float.toString(latitudeValue);
+        String longitud = Float.toString(longitudeValue);
+        latitudeUno = latitude.substring(0, latitude.indexOf("."));
+        latitudeDos = latitude.substring(latitude.indexOf(".") + 1, latitude.length());
+        longitudUno = longitud.substring(0, longitud.indexOf("."));
+        longitudDos = longitud.substring(longitud.indexOf(".") + 1, longitud.length());
+        System.out.println("Estos son los numeros separados por el punto: " + latitudeUno + " " + latitudeDos + " " + longitudUno + " " + longitudDos + " " );
+        //$GPS=,-10014,0980,2608,8791,&
+        String coordenasAMandar = "$GPS=," + latitudeUno + "," + latitudeDos + "," + longitudUno + "," + longitudDos + ",&";
+        System.out.println("Esta es la cadena a mandar: " + coordenasAMandar);
 
+        try {
+            sendLocation(coordenasAMandar);
+        } catch (IOException ex) {
+        }
+
+    }
+
+    @Override
+    public void onLocationPermissionGranted() {
+        showToast("Permiso Otorgado");
+    }
+
+    @Override
+    public void onLocationPermissionDenied() {
+        showToast("Permiso Negado");
+    }
+
+    @Override
+    public void onLocationProviderEnabled() {
+        print("Location services are now ON");
+
+    }
+
+    @Override
+    public void onLocationProviderDisabled() {
+        print("Location services are still Off");
+    }
+
+    public void requestSingleLocation(){
+        LocationRequest locationRequest = new LocationRequest()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(1000)
+                .setFastestInterval(1000);
+        EasyLocationRequest easyLocationRequest = new EasyLocationRequestBuilder()
+                .setLocationRequest(locationRequest)
+                .setFallBackToLastLocationTime(300)
+                .build();
+        requestSingleLocationFix(easyLocationRequest);
+    }
 }
