@@ -150,9 +150,6 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
             tvNodeID.setText(intarray[1] + "" + intarray[2]);
             tvRx.setText(String.valueOf(intarray[3]));
             tvTx.setText(String.valueOf(intarray[4]));
-            print("Esto tiene el 7: " + intarray[7]);
-            print("Esto tiene el 8: " + intarray[8]);
-            print("Esto tiene el 9: " + intarray[9]);
 
             switch (intarray[9]) {
                 case 01:
@@ -177,13 +174,12 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
 
             }
 
-
             tvCorriente1.setText(String.valueOf(intarray[11]*256 + intarray[10]));
             tvCorriente2.setText(String.valueOf(intarray[13]*256 + intarray[12]));
             tvCorriente3.setText(String.valueOf(intarray[15]*256 + intarray[14]));
-            tvVoltaje1.setText(String.valueOf(Double.valueOf(intarray[17]*256 + intarray[16])/100));
-            tvVoltaje2.setText(String.valueOf(Double.valueOf(intarray[19]*256 + intarray[18])/100));
-            tvVoltaje3.setText(String.valueOf(Double.valueOf(intarray[21]*256 + intarray[20])/100));
+            //tvVoltaje1.setText(String.valueOf(Double.valueOf(intarray[17]*256 + intarray[16])/100));
+            //tvVoltaje2.setText(String.valueOf(Double.valueOf(intarray[19]*256 + intarray[18])/100));
+            //tvVoltaje3.setText(String.valueOf(Double.valueOf(intarray[21]*256 + intarray[20])/100));
             tvPico1.setText(String.valueOf(Double.valueOf(intarray[23]*256 + intarray[22])/100));
             tvPico2.setText(String.valueOf(Double.valueOf(intarray[25]*256 + intarray[24])/100));
             tvPico3.setText(String.valueOf(Double.valueOf(intarray[27]*256 + intarray[26])/100));
@@ -427,7 +423,6 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
                     showToast("Bluetooth Desconectado");
                 }
                 break;
-
             case R.id.btnParar:
                 if (connected) {
                     sendParar();
@@ -442,9 +437,6 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
                     showToast("Bluetooth Desconectado");
                 }
                 break;
-
-
-
         }
     }
     void sendOpen(){
