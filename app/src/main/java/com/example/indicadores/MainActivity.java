@@ -2,18 +2,23 @@ package com.example.indicadores;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +42,7 @@ import static java.lang.Long.valueOf;
 
 public class MainActivity extends EasyLocationAppCompatActivity implements View.OnClickListener {
 
-    TextView tvLiberado,tvEstado, tvNodeID,tvVoltBatUTR, tvRx, tvTx, tvBinaria1, tvBinaria2, tvCorriente1, tvCorriente2, tvCorriente3, tvVoltaje1, tvVoltaje2, tvVoltaje3, tvPico1, tvPico2, tvPico3, tvTemperatura1, tvTemperatura2, tvTemperatura3, tvTiempo1, tvTiempo2, tvTiempo3, tvConnect;
+    TextView tvLiberado,tvEstado, tvNodeID,tvVoltBatUTR, tvRx, tvTx, tvAlarma, tvAlarma1, tvAlarma2, tvAlarma3,  tvBinaria1, tvBinaria2, tvCorriente1, tvCorriente2, tvCorriente3, tvVoltaje1, tvVoltaje2, tvVoltaje3, tvPico1, tvPico2, tvPico3, tvTemperatura1, tvTemperatura2, tvTemperatura3, tvTiempo1, tvTiempo2, tvTiempo3, tvConnect;
     String cadena = "F1 00 02 00 3E 21 00 00 60 00 00 00 00 0D 00 0D 00 00 00 53 01 55 01 00 00 00 00 00 00 00 15 15 FA 00 00 00 00 00 F2";
     Button btnConnect, btnAbrir, btnCerrar, btnParar, btnCoordenadas;
     boolean connected = false;
@@ -65,7 +70,6 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
 
     static Thread thread;
 
-    boolean boolPassword;
     String controlPassword = "OK";
     float latitudeValue, longitudeValue;
     private int timeInterval = 3000;
@@ -75,11 +79,14 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
     int control;
     String uno, dos,latitudeUno, latitudeDos, longitudUno, longitudDos;
     Boolean boolDos;
+    static boolean boolPassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        boolPassword = false;
         initTextViews();
         //readString(cadena); //Leer del string fijo
         // construct a new instance of SimpleLocation
@@ -109,6 +116,10 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
         tvTiempo2 = (TextView)findViewById(R.id.tvTiempo2);
         tvTiempo3 = (TextView)findViewById(R.id.tvTiempo3);
         tvConnect = (TextView)findViewById(R.id.tvConnect);
+        tvAlarma = (TextView)findViewById(R.id.tvAlarma);
+        tvAlarma1 = (TextView)findViewById(R.id.tvAlarma1);
+        tvAlarma2 = (TextView)findViewById(R.id.tvAlarma2);
+        tvAlarma3 = (TextView)findViewById(R.id.tvAlarma3);
         btnConnect = (Button)findViewById(R.id.btnConnect);
         btnConnect.setOnClickListener(this);
         btnAbrir = (Button)findViewById(R.id.btnAbrir);
@@ -151,35 +162,142 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
             tvRx.setText(String.valueOf(intarray[3]));
             tvTx.setText(String.valueOf(intarray[4]));
 
-            switch (intarray[9]) {
-                case 01:
-                    tvEstado.setText("Abierto");
-                    tvLiberado.setText("No");
-                    break;
-                case 02:
-                    tvEstado.setText("Cerrado");
-                    tvLiberado.setText("No");
-                    break;
-                case 03:
-                    tvEstado.setText("En Transición");
-                    break;
-                case 05:
-                    tvEstado.setText("Abierto");
-                    tvLiberado.setText("Sí");
-                    break;
-                case 06:
-                    tvEstado.setText("Cerrado");
-                    tvLiberado.setText("Sí");
-                    break;
+            String binario7 = Integer.toBinaryString(intarray[7]);
+            for(int a=binario7.length(); a < 8; a++){
+                binario7 = '0' + binario7;
+            }
+            //print("Esto tiene el binary7: " + binario7);
+            StringBuilder sb = new StringBuilder(binario7);
+            String binario7Final = sb.reverse().toString();
 
+            String binario8 = Integer.toBinaryString(intarray[8]);
+            for(int a=binario8.length(); a < 8; a++){
+                binario8 = '0' + binario8;
+            }
+            //print("Esto tiene el binary8: " + binario8);
+            StringBuilder sb2 = new StringBuilder(binario8);
+            String binario8Final = sb2.reverse().toString();
+
+            String binario9 = Integer.toBinaryString(intarray[9]);
+            for(int a=binario9.length(); a < 8; a++){
+                binario9 = '0' + binario9;
+            }
+            StringBuilder sb3 = new StringBuilder(binario9);
+            String binario9Final = sb3.reverse().toString();
+            //print("Esto tiene el binary9: " + binario9Final);
+
+
+            String binarioTotal = binario7Final + binario8Final + binario9Final;
+            print("Esto tiene el total: " + binarioTotal);
+            //Binarios de Alarmas
+            if(binarioTotal.charAt(0) == '1'){
+                tvAlarma1.setText("Prueba");
+            }else{
+                tvAlarma1.setText("");
+            }
+            if(binarioTotal.charAt(1) == '1'){
+                tvAlarma1.setText("CC entre Fases");
+            }else{
+                tvAlarma1.setText("");
+            }
+            if(binarioTotal.charAt(2) == '1'){
+                tvAlarma1.setText("Puesta a Tierra BC");
+            }else{
+                tvAlarma1.setText("");
+            }
+            if(binarioTotal.charAt(3) == '1'){
+                tvAlarma1.setText("Puesta a Tierra AC");
+            }else{
+                tvAlarma1.setText("");
+            }
+            if(binarioTotal.charAt(4) == '1'){
+                tvAlarma2.setText("Prueba");
+            }else{
+                tvAlarma2.setText("");
+            }
+            if(binarioTotal.charAt(5) == '1'){
+                tvAlarma2.setText("CC entre Fases");
+            }else{
+                tvAlarma2.setText("");
+            }
+            if(binarioTotal.charAt(6) == '1'){
+                tvAlarma2.setText("Puesta a Tierra BC");
+            }else{
+                tvAlarma2.setText("");
+            }
+            if(binarioTotal.charAt(7) == '1'){
+                tvAlarma2.setText("Puesta a Tierra AC");
+            }else{
+                tvAlarma2.setText("");
+            }
+            if(binarioTotal.charAt(8) == '1'){
+                tvAlarma3.setText("Prueba");
+            }else{
+                tvAlarma3.setText("");
+            }
+            if(binarioTotal.charAt(9) == '1'){
+                tvAlarma3.setText("CC entre Fases");
+            }else{
+                tvAlarma3.setText("");
+            }
+            if(binarioTotal.charAt(10) == '1'){
+                tvAlarma3.setText("Puesta a Tierra BC");
+            }else{
+                tvAlarma3.setText("");
+            }
+            if(binarioTotal.charAt(11) == '1'){
+                tvAlarma3.setText("Puesta a Tierra AC");
+            }else{
+                tvAlarma3.setText("");
+            }
+            if(binarioTotal.charAt(12) == '1'){
+                tvAlarma1.setText("Conexión");
+            }else{
+                tvAlarma1.setText("");
+            }
+            if(binarioTotal.charAt(13) == '1'){
+                tvAlarma2.setText("Conexión");
+            }else{
+                tvAlarma2.setText("");
+            }
+            if(binarioTotal.charAt(14) == '1'){
+                tvAlarma3.setText("Conexión");
+            }else{
+                tvAlarma3.setText("");
+            }
+            if(binarioTotal.charAt(15) == '1'){
+                tvAlarma.setText("Voltaje");
+            }else{
+                tvAlarma.setText("");
+            }
+            if(binarioTotal.charAt(19) == '1'){
+                tvAlarma.setText("Proceso");
+            }else{
+                tvAlarma.setText("");
+            }
+
+            //Estados
+            if(binarioTotal.charAt(17) == '1'){
+                tvEstado.setText("Cuchilla Movida");
+            }else{
+                if(binarioTotal.charAt(16) == '0'){
+                    tvEstado.setText("Cerrado");
+                }else{
+                    tvEstado.setText("Abierto");
+                }
+            }
+            if(binarioTotal.charAt(18) == '0'){
+                tvLiberado.setText("No");
+            }else{
+                tvLiberado.setText("Sí");
             }
 
             tvCorriente1.setText(String.valueOf(intarray[11]*256 + intarray[10]));
             tvCorriente2.setText(String.valueOf(intarray[13]*256 + intarray[12]));
             tvCorriente3.setText(String.valueOf(intarray[15]*256 + intarray[14]));
-            //tvVoltaje1.setText(String.valueOf(Double.valueOf(intarray[17]*256 + intarray[16])/100));
-            //tvVoltaje2.setText(String.valueOf(Double.valueOf(intarray[19]*256 + intarray[18])/100));
-            //tvVoltaje3.setText(String.valueOf(Double.valueOf(intarray[21]*256 + intarray[20])/100));
+            tvVoltaje1.setText(String.valueOf(Double.valueOf(intarray[17]*256 + intarray[16])/100));
+            tvVoltaje2.setText(String.valueOf(Double.valueOf(intarray[19]*256 + intarray[18])/100));
+            tvVoltaje3.setText(String.valueOf(Double.valueOf(intarray[21]*256 + intarray[20])/100));
             tvPico1.setText(String.valueOf(Double.valueOf(intarray[23]*256 + intarray[22])/100));
             tvPico2.setText(String.valueOf(Double.valueOf(intarray[25]*256 + intarray[24])/100));
             tvPico3.setText(String.valueOf(Double.valueOf(intarray[27]*256 + intarray[26])/100));
@@ -192,7 +310,8 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
             tvTiempo3.setText(String.valueOf(intarray[35]));
         }
     }
-
+    //011100000000001100000000
+    //001000000000001100000000
 
     public void print(String message){
         System.out.println(message);
@@ -318,10 +437,10 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
                             }
                             if(control == 0){
                                 uno[0] = sb.toString();
-                                print("Uno: " + uno[0]);
+                                //print("Uno: " + uno[0]);
                             }else{
                                 dos[0] = sb.toString();
-                                print("Dos: " + dos[0]);
+                                //print("Dos: " + dos[0]);
                                 print("Esto es todo completo: " + uno[0] + dos[0]);
                                 handler.post(new Runnable() {
                                     @Override
@@ -332,19 +451,19 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
                                     }
                                 });
                             }
-                            System.out.println("Hex as string: " + sb.toString()); //Hex as string
+                            //System.out.println("Hex as string: " + sb.toString()); //Hex as string
                             if(sb.toString().contains("F1") && !sb.toString().contains("F2")){
-                                print("Tiene F1 pero no F2");
+                                //print("Tiene F1 pero no F2");
                                 control = 1;
                             }else if(!sb.toString().contains("F1") && sb.toString().contains("F2")){
-                                print("Tiene F2 pero no F1");
+                               // print("Tiene F2 pero no F1");
                                 control = 0;
                                 boolDos = true;
                                 //print(uno + dos);
 
                             }else if(sb.toString().contains("F1") && sb.toString().contains("F2")){
                                 //Mandarlo asi como está
-                                print("Ya estaba completo: " + sb.toString());
+                                //print("Ya estaba completo: " + sb.toString());
                             }
 
                         }
@@ -381,6 +500,7 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
         tvLiberado.setText("");
         tvRx.setText("");
         tvTx.setText("");
+        tvEstado.setText("");
     }
 
 
@@ -411,21 +531,35 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
 
             case R.id.btnAbrir:
                 if (connected) {
-                    sendOpen();
+                    if(boolPassword){
+                        sendOpen();
+                    }else{
+                        showPasswordDialog("Ingrese la contraseña", "");
+                    }
+
                 } else {
                     showToast("Bluetooth Desconectado");
                 }
                 break;
             case R.id.btnCerrar:
                 if (connected) {
-                    sendClose();
+                    if(boolPassword){
+                        sendClose();
+                    }else{
+                        showPasswordDialog("Ingrese la contraseña", "");
+                    }
+
                 } else {
                     showToast("Bluetooth Desconectado");
                 }
                 break;
             case R.id.btnParar:
                 if (connected) {
-                    sendParar();
+                    if(boolPassword){
+                        sendParar();
+                    }else{
+                        showPasswordDialog("Ingrese la contraseña", "");
+                    }
                 } else {
                     showToast("Bluetooth Desconectado");
                 }
@@ -474,6 +608,45 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
         }
 
     }
+
+    void sendPassword(String pass) throws IOException
+    {
+        System.out.println("El control = Pass");
+        System.out.println("Estoy en el sendPassword");
+        String msg = "$PASS=" + pass + ",& ";
+        System.out.println("Este es el pass que mando " + msg);
+        outputStream.write(msg.getBytes());
+        boolPassword = true;
+    }
+
+    public void showPasswordDialog(final String title, final String message){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        final EditText edittext = new EditText(getApplicationContext());
+        edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
+        edittext.setTextColor(getResources().getColor(R.color.black));
+        edittext.setRawInputType(Configuration.KEYBOARD_12KEY);
+        alert.setMessage(message);
+        alert.setTitle(title);
+        alert.setView(edittext);
+        alert.setPositiveButton("Ingresar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String pass = edittext.getText().toString();
+                //Pasar el pass con este comando = $PASS=12345,& regresa OK si es correcto o error si incorrect
+                try{
+                    sendPassword(pass);
+                }catch(IOException e){
+                }
+            }
+        });
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Cerrar el input dialog
+                dialog.dismiss();
+            }
+        });
+        alert.show();
+    }
+
 
     @Override
     protected void onResume() {
@@ -544,11 +717,11 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
     public void requestSingleLocation(){
         LocationRequest locationRequest = new LocationRequest()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(1000)
-                .setFastestInterval(1000);
+                .setInterval(5000)
+                .setFastestInterval(5000);
         EasyLocationRequest easyLocationRequest = new EasyLocationRequestBuilder()
                 .setLocationRequest(locationRequest)
-                .setFallBackToLastLocationTime(300)
+                .setFallBackToLastLocationTime(3000)
                 .build();
         requestSingleLocationFix(easyLocationRequest);
     }

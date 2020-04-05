@@ -20,7 +20,7 @@
 
             <LinearLayout
                 android:layout_width="300sp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingLeft="30sp"
                 android:paddingRight="30sp">
@@ -33,7 +33,6 @@
                     android:gravity="center_horizontal"
                     android:paddingTop="30sp"
                     android:paddingBottom="30sp"
-                    android:text="Abierto"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
 
                 <LinearLayout
@@ -64,6 +63,13 @@
                     android:layout_height="70sp"
                     android:text="Parar"
                     android:textSize="28sp" />
+
+                <TextView
+                    android:id="@+id/tvAlarma"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FF0000"
+                    android:textSize="24sp" />
 
             </LinearLayout>
 
@@ -354,9 +360,51 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
                 </TableRow>
 
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="#3399ff">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Alarma"
+                        android:textStyle="bold"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+                    <TextView
+                        android:id="@+id/tvAlarma1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:textStyle="bold"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+                    <TextView
+                        android:id="@+id/tvAlarma2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:textStyle="bold"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+                    <TextView
+                        android:id="@+id/tvAlarma3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:textStyle="bold"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                </TableRow>
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="30dp" />
+                    android:layout_height="0dp" />
 
             </TableLayout>
         </LinearLayout>
