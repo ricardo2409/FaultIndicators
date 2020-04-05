@@ -104,9 +104,10 @@
                         android:id="@+id/tvInd1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="A"
+                        android:text="1"
                         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                         android:textStyle="bold" />
                     <LinearLayout
@@ -120,9 +121,10 @@
                         android:id="@+id/tvInd2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="B"
+                        android:text="2"
                         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                         android:textStyle="bold" />
                     <LinearLayout
@@ -136,9 +138,10 @@
                         android:id="@+id/tvInd3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="C"
+                        android:text="3"
                         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                         android:textStyle="bold" />
                 </TableRow>
@@ -361,10 +364,10 @@
                 </TableRow>
 
                 <TableRow
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="#3399ff">
+                    android:background="#3399ff"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/textView"
@@ -372,8 +375,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Alarma"
-                        android:textStyle="bold"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvAlarma1"
@@ -381,8 +384,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:textStyle="bold"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvAlarma2"
@@ -390,8 +394,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:textStyle="bold"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvAlarma3"
@@ -399,8 +404,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:textStyle="bold"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
                 </TableRow>
                 <Space
                     android:layout_width="match_parent"

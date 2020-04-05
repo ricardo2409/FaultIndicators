@@ -193,87 +193,82 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
             if(binarioTotal.charAt(0) == '1'){
                 tvAlarma1.setText("Prueba");
             }else{
-                tvAlarma1.setText("");
+                if(binarioTotal.charAt(1) == '1'){
+                    print("Estoy en el if");
+                    tvAlarma1.setText("CC entre Fases");
+                }else{
+                    if(binarioTotal.charAt(2) == '1'){
+                        tvAlarma1.setText("Puesta a Tierra BC");
+                    }else{
+                        if(binarioTotal.charAt(3) == '1'){
+                            tvAlarma1.setText("Puesta a Tierra AC");
+                        }else{
+                            if(binarioTotal.charAt(12) == '1'){
+                                tvAlarma1.setText("Conexión");
+                            }else{
+                                tvAlarma1.setText("");
+                            }
+                        }
+                    }
+                }
             }
-            if(binarioTotal.charAt(1) == '1'){
-                tvAlarma1.setText("CC entre Fases");
-            }else{
-                tvAlarma1.setText("");
-            }
-            if(binarioTotal.charAt(2) == '1'){
-                tvAlarma1.setText("Puesta a Tierra BC");
-            }else{
-                tvAlarma1.setText("");
-            }
-            if(binarioTotal.charAt(3) == '1'){
-                tvAlarma1.setText("Puesta a Tierra AC");
-            }else{
-                tvAlarma1.setText("");
-            }
+
+
+
             if(binarioTotal.charAt(4) == '1'){
                 tvAlarma2.setText("Prueba");
             }else{
-                tvAlarma2.setText("");
+                if(binarioTotal.charAt(5) == '1'){
+                    tvAlarma2.setText("CC entre Fases");
+                }else{
+                    if(binarioTotal.charAt(6) == '1'){
+                        tvAlarma2.setText("Puesta a Tierra BC");
+                    }else{
+                        if(binarioTotal.charAt(7) == '1'){
+                            tvAlarma2.setText("Puesta a Tierra AC");
+                        }else{
+                            if(binarioTotal.charAt(13) == '1'){
+                                tvAlarma2.setText("Conexión");
+                            }else{
+                                tvAlarma2.setText("");
+                            }
+                        }
+                    }
+                }
             }
-            if(binarioTotal.charAt(5) == '1'){
-                tvAlarma2.setText("CC entre Fases");
-            }else{
-                tvAlarma2.setText("");
-            }
-            if(binarioTotal.charAt(6) == '1'){
-                tvAlarma2.setText("Puesta a Tierra BC");
-            }else{
-                tvAlarma2.setText("");
-            }
-            if(binarioTotal.charAt(7) == '1'){
-                tvAlarma2.setText("Puesta a Tierra AC");
-            }else{
-                tvAlarma2.setText("");
-            }
+
+
+
             if(binarioTotal.charAt(8) == '1'){
                 tvAlarma3.setText("Prueba");
             }else{
-                tvAlarma3.setText("");
+                if(binarioTotal.charAt(9) == '1'){
+                    tvAlarma3.setText("CC entre Fases");
+                }else{
+                    if(binarioTotal.charAt(10) == '1'){
+                        tvAlarma3.setText("Puesta a Tierra BC");
+                    }else{
+                        if(binarioTotal.charAt(11) == '1'){
+                            tvAlarma3.setText("Puesta a Tierra AC");
+                        }else{
+                            if(binarioTotal.charAt(14) == '1'){
+                                tvAlarma3.setText("Conexión");
+                            }else{
+                                tvAlarma3.setText("");
+                            }
+                        }
+                    }
+                }
             }
-            if(binarioTotal.charAt(9) == '1'){
-                tvAlarma3.setText("CC entre Fases");
-            }else{
-                tvAlarma3.setText("");
-            }
-            if(binarioTotal.charAt(10) == '1'){
-                tvAlarma3.setText("Puesta a Tierra BC");
-            }else{
-                tvAlarma3.setText("");
-            }
-            if(binarioTotal.charAt(11) == '1'){
-                tvAlarma3.setText("Puesta a Tierra AC");
-            }else{
-                tvAlarma3.setText("");
-            }
-            if(binarioTotal.charAt(12) == '1'){
-                tvAlarma1.setText("Conexión");
-            }else{
-                tvAlarma1.setText("");
-            }
-            if(binarioTotal.charAt(13) == '1'){
-                tvAlarma2.setText("Conexión");
-            }else{
-                tvAlarma2.setText("");
-            }
-            if(binarioTotal.charAt(14) == '1'){
-                tvAlarma3.setText("Conexión");
-            }else{
-                tvAlarma3.setText("");
-            }
+
             if(binarioTotal.charAt(15) == '1'){
                 tvAlarma.setText("Voltaje");
             }else{
-                tvAlarma.setText("");
-            }
-            if(binarioTotal.charAt(19) == '1'){
-                tvAlarma.setText("Proceso");
-            }else{
-                tvAlarma.setText("");
+                if(binarioTotal.charAt(19) == '1'){
+                    tvAlarma.setText("Proceso");
+                }else{
+                    tvAlarma.setText("");
+                }
             }
 
             //Estados
@@ -501,6 +496,10 @@ public class MainActivity extends EasyLocationAppCompatActivity implements View.
         tvRx.setText("");
         tvTx.setText("");
         tvEstado.setText("");
+        tvAlarma1.setText("");
+        tvAlarma2.setText("");
+        tvAlarma3.setText("");
+
     }
 
 
